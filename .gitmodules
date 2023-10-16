@@ -3,4 +3,4 @@
 	url = https://github.com/naokiiida/get_next_line.git
 [submodule "born2beroot"]
 	path = born2beroot
-	url = ./born2beroot
+	url = https://github.com/naokiiida/born2beroot.git
