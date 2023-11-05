@@ -4,3 +4,6 @@
 [submodule "born2beroot"]
 	path = born2beroot
 	url = https://github.com/naokiiida/born2beroot.git
+[submodule "push_swap"]
+	path = push_swap
+	url = https://github.com/naokiiida/push_swap.git
