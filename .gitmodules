@@ -13,3 +13,6 @@
 [submodule "libft"]
 	path = libft
 	url = git@github.com:naokiiida/libft.git
+[submodule "minitalk"]
+	path = minitalk
+	url = git@github.com:naokiiida/minitalk.git
