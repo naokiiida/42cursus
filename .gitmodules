@@ -7,3 +7,9 @@
 [submodule "push_swap"]
 	path = push_swap
 	url = https://github.com/naokiiida/push_swap.git
+[submodule "ft_printf"]
+	path = ft_printf
+	url = git@github.com:naokiiida/ft_printf.git
+[submodule "libft"]
+	path = libft
+	url = git@github.com:naokiiida/libft.git
