@@ -16,3 +16,6 @@
 [submodule "minitalk"]
 	path = minitalk
 	url = git@github.com:naokiiida/minitalk.git
+[submodule "fractol"]
+	path = fractol
+	url = https://github.com/naokiiida/fractol
