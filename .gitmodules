@@ -1,12 +1,12 @@
 [submodule "get_next_line"]
 	path = get_next_line
-	url = https://github.com/naokiiida/get_next_line.git
+	url = git@github.com:naokiiida/get_next_line.git
 [submodule "born2beroot"]
 	path = born2beroot
-	url = https://github.com/naokiiida/born2beroot.git
+	url = git@github.com:naokiiida/born2beroot.git
 [submodule "push_swap"]
 	path = push_swap
-	url = https://github.com/naokiiida/push_swap.git
+	url = git@github.com:naokiiida/push_swap.git
 [submodule "ft_printf"]
 	path = ft_printf
 	url = git@github.com:naokiiida/ft_printf.git
@@ -18,4 +18,4 @@
 	url = git@github.com:naokiiida/minitalk.git
 [submodule "fractol"]
 	path = fractol
-	url = https://github.com/naokiiida/fractol
+	url = git@github.com:naokiiida/fractol.git
