@@ -19,3 +19,9 @@
 [submodule "fractol"]
 	path = fractol
 	url = git@github.com:naokiiida/fractol.git
+[submodule "pipex"]
+	path = pipex
+	url = git@github.com:naokiiida/pipex
+[submodule "minishell"]
+	path = minishell
+	url = git@github.com:naokiiida/minishell
