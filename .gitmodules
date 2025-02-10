@@ -25,3 +25,9 @@
 [submodule "minishell"]
 	path = minishell
 	url = git@github.com:naokiiida/minishell
+[submodule "philosophers"]
+	path = philosophers
+	url = https://github.com/naokiiida/philosophers
+[submodule "cub3d"]
+	path = cub3d
+	url = https://github.com/naokiiida/cub3d
