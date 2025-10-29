@@ -31,3 +31,30 @@
 [submodule "cub3d"]
 	path = cub3d
 	url = https://github.com/naokiiida/cub3d
+[submodule "ft_irc"]
+	path = ft_irc
+	url = git@github.com:naokiiida/ft_irc
+[submodule "inception"]
+	path = inception
+	url = git@github.com:naokiiida/inception
+[submodule "cpp00"]
+	path = cpp00
+	url = git@github.com:naokiiida/cpp00
+[submodule "cpp01"]
+	path = cpp01
+	url = git@github.com:naokiiida/cpp01
+[submodule "cpp02"]
+	path = cpp02
+	url = git@github.com:naokiiida/cpp02
+[submodule "cpp03"]
+	path = cpp03
+	url = git@github.com:naokiiida/cpp03
+[submodule "cpp04"]
+	path = cpp04
+	url = git@github.com:naokiiida/cpp04
+[submodule "cpp05"]
+	path = cpp05
+	url = git@github.com:naokiiida/cpp05
+[submodule "cpp06"]
+	path = cpp06
+	url = git@github.com:naokiiida/cpp06
