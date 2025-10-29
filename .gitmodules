@@ -27,13 +27,13 @@
 	url = git@github.com:naokiiida/minishell
 [submodule "philosophers"]
 	path = philosophers
-	url = https://github.com/naokiiida/philosophers
+	url = git@github.com:naokiiida/philosophers.git
 [submodule "cub3d"]
 	path = cub3d
 	url = https://github.com/naokiiida/cub3d
 [submodule "ft_irc"]
 	path = ft_irc
-	url = git@github.com:naokiiida/ft_irc
+	url = git@github.com:Shunpei0902/ft_irc
 [submodule "inception"]
 	path = inception
 	url = git@github.com:naokiiida/inception
