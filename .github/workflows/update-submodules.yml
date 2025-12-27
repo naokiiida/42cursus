@@ -1,0 +1,85 @@
+name: Update Submodules
+
+# This workflow runs on a schedule as a backup to the webhook server
+# It checks for submodule updates and creates a commit if any are found
+
+on:
+  schedule:
+    # Run every 6 hours
+    - cron: '0 */6 * * *'
+
+  # Allow manual trigger
+  workflow_dispatch:
+
+  # Trigger when webhook-related files are updated
+  push:
+    branches:
+      - main
+      - 'claude/github-webhook-submodules-*'
+    paths:
+      - '.gitmodules'
+      - '.github/workflows/update-submodules.yml'
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          submodules: true
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+
+      - name: Update submodules
+        id: update
+        run: |
+          echo "Updating submodules..."
+          git submodule update --remote --merge
+
+          # Check if there are any changes
+          if git diff --quiet; then
+            echo "No submodule updates available"
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "Submodule updates found"
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+
+            # Show what changed
+            echo "Changes:"
+            git status --short
+          fi
+
+      - name: Commit and push if changed
+        if: steps.update.outputs.has_changes == 'true'
+        run: |
+          git add .
+
+          # Create commit message with details
+          cat > commit_message.txt << EOF
+          Update submodules via GitHub Actions
+
+          Automated update run at: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          Workflow: ${{ github.workflow }}
+          Run ID: ${{ github.run_id }}
+
+          Updated submodules:
+          $(git diff --staged --name-only)
+          EOF
+
+          git commit -F commit_message.txt
+          git push
+
+      - name: Summary
+        run: |
+          if [ "${{ steps.update.outputs.has_changes }}" == "true" ]; then
+            echo "✅ Submodules updated and pushed successfully"
+          else
+            echo "ℹ️ No updates needed - all submodules are current"
+          fi

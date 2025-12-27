@@ -1,0 +1,106 @@
+name: Test Webhook Server
+
+# Test the webhook server code
+
+on:
+  push:
+    branches:
+      - main
+      - 'claude/github-webhook-submodules-*'
+    paths:
+      - 'webhook_server.py'
+      - 'requirements.txt'
+      - 'Dockerfile'
+      - '.github/workflows/test-webhook-server.yml'
+  pull_request:
+    paths:
+      - 'webhook_server.py'
+      - 'requirements.txt'
+      - 'Dockerfile'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest requests
+
+      - name: Lint with flake8
+        run: |
+          pip install flake8
+          # Stop the build if there are Python syntax errors or undefined names
+          flake8 webhook_server.py --count --select=E9,F63,F7,F82 --show-source --statistics
+          # Exit-zero treats all errors as warnings
+          flake8 webhook_server.py --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+      - name: Test server starts
+        run: |
+          # Set test environment variables
+          export WEBHOOK_SECRET="test_secret"
+          export REPO_PATH="/tmp/test_repo"
+          export ENABLE_AUTO_PUSH="false"
+
+          # Create test repo directory
+          mkdir -p /tmp/test_repo
+
+          # Start server in background
+          python webhook_server.py &
+          SERVER_PID=$!
+
+          # Wait for server to start
+          sleep 5
+
+          # Test health endpoint
+          curl -f http://localhost:5000/health || (echo "Health check failed" && kill $SERVER_PID && exit 1)
+
+          # Test index endpoint
+          curl -f http://localhost:5000/ || (echo "Index endpoint failed" && kill $SERVER_PID && exit 1)
+
+          # Stop server
+          kill $SERVER_PID
+
+          echo "✅ Server tests passed"
+
+  docker:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t webhook-server:test .
+
+      - name: Test Docker image
+        run: |
+          # Run container
+          docker run -d --name test-webhook \
+            -e WEBHOOK_SECRET=test_secret \
+            -e REPO_PATH=/repo \
+            -e ENABLE_AUTO_PUSH=false \
+            -p 5000:5000 \
+            webhook-server:test
+
+          # Wait for server to start
+          sleep 5
+
+          # Test health endpoint
+          curl -f http://localhost:5000/health || (echo "Docker health check failed" && docker logs test-webhook && exit 1)
+
+          # Cleanup
+          docker stop test-webhook
+          docker rm test-webhook
+
+          echo "✅ Docker tests passed"

@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  webhook-server:
+    build: .
+    container_name: 42cursus-webhook
+    ports:
+      - "5000:5000"
+    volumes:
+      # Mount the repository directory
+      - /home/user/42cursus:/repo
+      # Preserve git configuration
+      - ~/.gitconfig:/root/.gitconfig:ro
+      - ~/.ssh:/root/.ssh:ro
+    environment:
+      - WEBHOOK_SECRET=${WEBHOOK_SECRET}
+      - REPO_PATH=/repo
+      - GIT_BRANCH=${GIT_BRANCH:-claude/github-webhook-submodules-SFaoA}
+      - ENABLE_AUTO_PUSH=${ENABLE_AUTO_PUSH:-true}
+      - HOST=0.0.0.0
+      - PORT=5000
+    restart: unless-stopped
+    networks:
+      - webhook-network
+
+networks:
+  webhook-network:
+    driver: bridge
